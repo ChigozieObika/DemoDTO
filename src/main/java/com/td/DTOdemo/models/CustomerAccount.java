@@ -1,11 +1,16 @@
 package com.td.DTOdemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+
+import java.util.List;
 
 
 @Entity
@@ -16,13 +21,16 @@ public class CustomerAccount {
     @Column
     private int id;
     @Column
-    private String name;
+    private String username;
     @Column
     private int phoneNumber;
     @Column
     private String email;
     @Column
     private String accountType;
+    @JsonIgnore
+    @OneToMany(mappedBy = "customerAccount")
+    private List<CustomerSubscription> customerSubscriptions;
 
     public CustomerAccount() {
     }
@@ -35,12 +43,12 @@ public class CustomerAccount {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getPhoneNumber() {
@@ -65,5 +73,13 @@ public class CustomerAccount {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public List<CustomerSubscription> getCustomerSubscriptions() {
+        return customerSubscriptions;
+    }
+
+    public void setCustomerSubscriptions(List<CustomerSubscription> customerSubscriptions) {
+        this.customerSubscriptions = customerSubscriptions;
     }
 }

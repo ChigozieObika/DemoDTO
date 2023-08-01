@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerAccountAuthRepository extends JpaRepository<CustomerAccountAuth, Integer> {
-    Optional<CustomerAccountAuth> findCustomerAccountAuthByUsername(String username);
+    Optional<CustomerAccountAuth> findCustomerAccountAuthByName(String name);
 
     Optional<CustomerAccountAuth> findCustomerAccountAuthByCustomerAccount(CustomerAccount customerAccount);
 

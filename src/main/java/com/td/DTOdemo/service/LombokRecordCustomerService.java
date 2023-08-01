@@ -29,8 +29,8 @@ public class LombokRecordCustomerService {
 
     public LombokResponseDto signup(LombokRequestDto lombokRequestDto) throws Exception {
 
-        Optional<CustomerAccount> customerAccount = this.customerAccountRepository.findCustomerAccountByName(
-                lombokRequestDto.getName()
+        Optional<CustomerAccount> customerAccount = this.customerAccountRepository.findCustomerAccountByUsername(
+                lombokRequestDto.getUsername()
         );
 
         if (customerAccount.isPresent()) {
@@ -48,16 +48,13 @@ public class LombokRecordCustomerService {
 
     public LombokResponseDto updateCustomerAccount(RecordRequestDto recordRequestDto) throws Exception {
 //        Optional<CustomerAccount> customerAccount1 = this.customerAccountRepository.findCustomerAccountByName(customerAccountRequestDto.getName());
-        CustomerAccountAuth customerAccountAuth = this.customerAccountAuthRepository.findCustomerAccountAuthByUsername(recordRequestDto.username()).orElse(null);
+        CustomerAccountAuth customerAccountAuth = this.customerAccountAuthRepository.findCustomerAccountAuthByName(recordRequestDto.name()).orElse(null);
         if (customerAccountAuth == null) {
             throw new Exception("Customer does not exist");
         }
 
         CustomerAccount customerAccount = customerAccountAuth.getCustomerAccount();
 
-        if (recordRequestDto.name() != null) {
-            customerAccount.setName(recordRequestDto.name());
-        }
         if (recordRequestDto.phoneNumber() != 0) {
             customerAccount.setPhoneNumber(recordRequestDto.phoneNumber());
         }
@@ -66,6 +63,10 @@ public class LombokRecordCustomerService {
         }
         if (recordRequestDto.accountType() != null) {
             customerAccount.setAccountType(recordRequestDto.accountType());
+        }
+
+        if (recordRequestDto.name() != null) {
+            customerAccountAuth.setName(recordRequestDto.name());
         }
         if (recordRequestDto.password() != null) {
             customerAccountAuth.setPassword(recordRequestDto.password());

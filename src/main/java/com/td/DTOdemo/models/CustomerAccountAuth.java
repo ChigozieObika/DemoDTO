@@ -20,10 +20,10 @@ public class CustomerAccountAuth {
     @Column
     private int AuthId;
     @Column
-    private String username;
+    private String name;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "\"customerName\"", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     private CustomerAccount customerAccount;
     @Column
     private String password;
@@ -35,20 +35,20 @@ public class CustomerAccountAuth {
     public CustomerAccountAuth() {
     }
 
-    public int getId() {
+    public int getAuthId() {
         return AuthId;
     }
 
-    public void setId(int id) {
-        this.AuthId = id;
+    public void setAuthId(int authId) {
+        AuthId = authId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public CustomerAccount getCustomerAccount() {

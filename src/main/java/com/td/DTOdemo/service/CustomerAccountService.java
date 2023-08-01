@@ -25,8 +25,8 @@ public class CustomerAccountService {
 
     public CustomerAccountResponseDto signup(CustomerAccountRequestDto customerAccountRequestDto) throws Exception {
 
-        Optional<CustomerAccount> customerAccount = this.customerAccountRepository.findCustomerAccountByName(
-                customerAccountRequestDto.getName()
+        Optional<CustomerAccount> customerAccount = this.customerAccountRepository.findCustomerAccountByUsername(
+                customerAccountRequestDto.getUsername()
         );
 
         if (customerAccount.isPresent()) {
@@ -41,16 +41,13 @@ public class CustomerAccountService {
     }
 
     public CustomerAccountResponseDto updateCustomerAccount(CustomerAccountRequestDto customerAccountRequestDto) throws Exception {
-        CustomerAccountAuth customerAccountAuth = this.customerAccountAuthRepository.findCustomerAccountAuthByUsername(customerAccountRequestDto.getUsername()).orElse(null);
+        CustomerAccountAuth customerAccountAuth = this.customerAccountAuthRepository.findCustomerAccountAuthByName(customerAccountRequestDto.getName()).orElse(null);
         if (customerAccountAuth == null) {
             throw new Exception("Customer does not exist");
         }
 
         CustomerAccount customerAccount = customerAccountAuth.getCustomerAccount();
 
-        if (customerAccountRequestDto.getName() != null) {
-            customerAccount.setName(customerAccountRequestDto.getName());
-        }
         if (customerAccountRequestDto.getPhoneNumber() != 0) {
             customerAccount.setPhoneNumber(customerAccountRequestDto.getPhoneNumber());
         }
@@ -59,6 +56,9 @@ public class CustomerAccountService {
         }
         if (customerAccountRequestDto.getAccountType() != null) {
             customerAccount.setAccountType(customerAccountRequestDto.getAccountType());
+        }
+        if (customerAccountRequestDto.getName() != null) {
+            customerAccountAuth.setName(customerAccountRequestDto.getName());
         }
         if (customerAccountRequestDto.getPassword() != null) {
             customerAccountAuth.setPassword(customerAccountRequestDto.getPassword());
